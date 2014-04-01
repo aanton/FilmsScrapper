@@ -1,5 +1,6 @@
 <?php
 
+use FilmsScrapper\Film;
 use FilmsScrapper\FilmAffinityScrapper;
 
 class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
@@ -36,5 +37,15 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
         $films = $this->scrapper->search('futbolín');
         $this->assertNotEmpty($films);
         $this->assertEquals(2, count($films));
+
+        $film = (new Film())->setTitle('Futbolín 2 (Metegol 2)  (2016)')
+            ->setThumbnailUrl('http://www.filmaffinity.com/imgs/movies/noimg50x72.jpg')
+            ->setRating(false);
+        $this->assertEquals($films[0], $film);
+
+        $film = (new Film())->setTitle('Futbolín (Metegol)  (2013)')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Futbolin_Metegol-347421-small.jpg')
+            ->setRating('6');
+        $this->assertEquals($films[1], $film);
     }
 }

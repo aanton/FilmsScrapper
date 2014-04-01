@@ -20,7 +20,7 @@ class FilmAffinityScrapper
      */
     public function search($text)
     {
-        $text = urlencode(utf8_decode($text)); // ISO-8859-1
+        $text = urlencode(utf8_decode($text)); // Convert search string to ISO-8859-1
         $url = $this->baseUrl . 'search.php?stext=' . $text . '&stype=title';
         $response = \Requests::get($url, array());
 
@@ -28,7 +28,8 @@ class FilmAffinityScrapper
             return array();
         }
 
-        $html = $response->body;
+        $html = utf8_encode($response->body); // Convert HTML to UTF-8
+
         /** @var \QueryPath\DOMQuery $pageDOM */
         $pageDOM = htmlqp($html);
 
@@ -39,16 +40,12 @@ class FilmAffinityScrapper
         {
             /** @var \QueryPath\DOMQuery $filmDOM */
             $title = $this->cleanText($filmDOM->find('.mc-title')->text());
-            // $thumbnail = $filmDOM->find('.mc-poster img')->attr('src');
-            // $directors = $this->cleanText($filmDOM->find('.mc-director')->text());
-            // $actors = $this->cleanText($filmDOM->find('.mc-cast')->text());
+            $thumbnail = $filmDOM->find('.mc-poster img')->attr('src');
             $rating = $filmDOM->find('.mc-info-container > img')->attr('src');
             $rating = $rating ? (preg_replace('#.*/([0-9]+)\.png#', '$1', $rating)) : false;
 
             $film = new Film();
-            $film->setTitle($title);
-            $film->setRating($rating);
-
+            $film->setTitle($title)->setThumbnailUrl($thumbnail)->setRating($rating);
             $films[] = $film;
         }
 
@@ -87,6 +84,6 @@ class FilmAffinityScrapper
 
     private function cleanText($text)
     {
-        return trim(utf8_encode($text));
+        return trim($text);
     }
 }

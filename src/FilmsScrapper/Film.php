@@ -19,6 +19,9 @@ class Film
     /** @var string */
     protected $thumbnailUrl;
 
+    /** @var int */
+    protected $year;
+
     /**
      * @return string
      */
@@ -29,14 +32,16 @@ class Film
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getRating()
     {
@@ -44,11 +49,13 @@ class Film
     }
 
     /**
-     * @param string $rating
+     * @param mixed $rating
+     * @return $this
      */
     public function setRating($rating)
     {
         $this->rating = $rating;
+        return $this;
     }
 
     /**
@@ -61,10 +68,12 @@ class Film
 
     /**
      * @param string $thumbnailUrl
+     * @return $this
      */
     public function setThumbnailUrl($thumbnailUrl)
     {
         $this->thumbnailUrl = $thumbnailUrl;
+        return $this;
     }
 
     /**
@@ -77,10 +86,12 @@ class Film
 
     /**
      * @param string $title
+     * @return $this
      */
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -93,11 +104,30 @@ class Film
 
     /**
      * @param string $url
+     * @return $this
      */
     public function setUrl($url)
     {
         $this->url = $url;
+        return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param int $year
+     * @return $this
+     */
+    public function setYear($year)
+    {
+        $this->year = $year;
+        return $this;
+    }
 
 }
