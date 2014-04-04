@@ -11,9 +11,9 @@ class Film
     protected $description;
 
     /** @var string */
-    protected $url;
+    protected $permalink;
 
-    /** @var string */
+    /** @var float */
     protected $rating;
 
     /** @var string */
@@ -21,6 +21,12 @@ class Film
 
     /** @var int */
     protected $year;
+
+    /** @var array */
+    protected $directors;
+
+    /** @var array */
+    protected $actors;
 
     /**
      * @return string
@@ -54,7 +60,7 @@ class Film
      */
     public function setRating($rating)
     {
-        $this->rating = $rating;
+        $this->rating = floatval($rating);
         return $this;
     }
 
@@ -97,18 +103,18 @@ class Film
     /**
      * @return string
      */
-    public function getUrl()
+    public function getPermalink()
     {
-        return $this->url;
+        return $this->permalink;
     }
 
     /**
      * @param string $url
      * @return $this
      */
-    public function setUrl($url)
+    public function setPermalink($permalink)
     {
-        $this->url = $url;
+        $this->permalink = $permalink;
         return $this;
     }
 
@@ -126,7 +132,43 @@ class Film
      */
     public function setYear($year)
     {
-        $this->year = $year;
+        $this->year = intval($year);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActors()
+    {
+        return $this->actors;
+    }
+
+    /**
+     * @param array $actors
+     * @return $this
+     */
+    public function setActors($actors)
+    {
+        $this->actors = $actors;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDirectors()
+    {
+        return $this->directors;
+    }
+
+    /**
+     * @param array
+     * @return $this
+     */
+    public function setDirectors($directors)
+    {
+        $this->directors = $directors;
         return $this;
     }
 

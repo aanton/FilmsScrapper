@@ -34,18 +34,18 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSearch()
     {
-        $films = $this->scrapper->search('futbolín');
+        $films = $this->scrapper->search('Criadas y Señoras');
         $this->assertNotEmpty($films);
-        $this->assertEquals(2, count($films));
+        $this->assertEquals(1, count($films));
 
-        $film = (new Film())->setTitle('Futbolín 2 (Metegol 2)  (2016)')
-            ->setThumbnailUrl('http://www.filmaffinity.com/imgs/movies/noimg50x72.jpg')
-            ->setRating(false);
+        $film = new Film();
+        $film->setTitle('Criadas y señoras')
+            ->setYear(2011)
+            ->setPermalink('http://www.filmaffinity.com/es/film512560.html')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Criadas_y_senoras-512560-small.jpg')
+            ->setRating(8.0)
+            ->setDirectors(array('Tate Taylor'))
+            ->setActors(array('Emma Stone', 'Viola Davis', 'Bryce Dallas Howard', 'Sissy Spacek', 'Octavia Spencer'));
         $this->assertEquals($films[0], $film);
-
-        $film = (new Film())->setTitle('Futbolín (Metegol)  (2013)')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/Futbolin_Metegol-347421-small.jpg')
-            ->setRating('6');
-        $this->assertEquals($films[1], $film);
     }
 }
