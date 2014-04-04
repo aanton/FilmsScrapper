@@ -28,7 +28,7 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testFailedSearch()
     {
-        $films = $this->scrapper->search('invalid-identifier');
+        $films = $this->scrapper->search('invalid-film-title');
         $this->assertEmpty($films);
     }
 
@@ -47,5 +47,32 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
             ->setDirectors(array('Tate Taylor'))
             ->setActors(array('Emma Stone', 'Viola Davis', 'Bryce Dallas Howard', 'Sissy Spacek', 'Octavia Spencer'));
         $this->assertEquals($films[0], $film);
+    }
+
+    public function testSearchMultipleResults()
+    {
+        $films = $this->scrapper->search('Futbolín');
+        $this->assertNotEmpty($films);
+        $this->assertEquals(2, count($films));
+
+        $film = new Film();
+        $film->setTitle('Futbolín 2 (Metegol 2)')
+            ->setYear(2016)
+            ->setPermalink('http://www.filmaffinity.com/es/film177643.html')
+            ->setThumbnailUrl('http://www.filmaffinity.com/imgs/movies/noimg50x72.jpg')
+            ->setRating(0.0)
+            ->setDirectors(array())
+            ->setActors(array('Animation'));
+        $this->assertEquals($films[0], $film);
+
+        $film = new Film();
+        $film->setTitle('Futbolín (Metegol)')
+            ->setYear(2013)
+            ->setPermalink('http://www.filmaffinity.com/es/film347421.html')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Futbolin_Metegol-347421-small.jpg')
+            ->setRating(6.0)
+            ->setDirectors(array('Juan José Campanella'))
+            ->setActors(array('Animation'));
+        $this->assertEquals($films[1], $film);
     }
 }

@@ -111,6 +111,12 @@ class FilmAffinityScrapper
 
     private function cleanArray($text, $limit = PHP_INT_MAX)
     {
+        $text = $this->cleanText($text);
+        if (empty($text))
+        {
+            return array();
+        }
+
         $array = preg_split('#\s*,\s*#', $text);
         return array_slice($array, 0, $limit);
     }
