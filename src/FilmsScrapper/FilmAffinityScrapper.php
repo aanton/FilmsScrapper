@@ -92,8 +92,20 @@ class FilmAffinityScrapper
             return null;
         }
 
+        $infoDOM = $pageDOM->find('.movie-info');
+        $originalTitle = $this->cleanText($infoDOM->find('dt:contains(Título original)')->next()->text());
+        $year = $this->cleanText($infoDOM->find('dt:contains(Año)')->next()->text());
+        $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
+        $actors = $this->cleanArray($infoDOM->find('dt:contains(Reparto)')->next()->text(), 5);
+        $image = $pageDOM->find('#movie-main-image-container a')->attr('href');
+        $rating = $pageDOM->find('#movie-rat-avg')->text();
+        $rating = str_replace(',', '.', $rating);
+
         $film = new Film();
-        $film->setTitle($title);
+        $film->setTitle($title)->setOriginalTitle($originalTitle)->setYear($year)
+            ->setPermalink($url)
+            ->setImageUrl($image)->setRating($rating)
+            ->setDirectors($directors)->setActors($actors);
 
         return $film;
     }

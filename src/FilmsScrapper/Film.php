@@ -8,6 +8,9 @@ class Film
     protected $title;
 
     /** @var string */
+    protected $originalTitle;
+
+    /** @var string */
     protected $description;
 
     /** @var string */
@@ -15,6 +18,9 @@ class Film
 
     /** @var float */
     protected $rating;
+
+    /** @var string */
+    protected $imageUrl;
 
     /** @var string */
     protected $thumbnailUrl;
@@ -169,6 +175,42 @@ class Film
     public function setDirectors($directors)
     {
         $this->directors = $directors;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalTitle()
+    {
+        return $this->originalTitle;
+    }
+
+    /**
+     * @param string $originalTitle
+     * @return $this
+     */
+    public function setOriginalTitle($originalTitle)
+    {
+        $this->originalTitle = $originalTitle;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     * @return $this
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
         return $this;
     }
 
