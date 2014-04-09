@@ -51,7 +51,7 @@ class FilmAffinityScrapper
             }
 
             $permalink = $filmDOM->find('.mc-poster a')->attr('href');
-            $thumbnail = $filmDOM->find('.mc-poster img')->attr('src');
+            $thumbnail = $this->cleanImage($filmDOM->find('.mc-poster img')->attr('src'));
             $rating = $filmDOM->find('.mc-info-container > img')->attr('src');
             $rating = $rating ? (preg_replace('#.*/([0-9]+)\.png#', '$1', $rating)) : false;
             $directors = $this->cleanArray($filmDOM->find('.mc-director')->text(), 2);
@@ -97,7 +97,7 @@ class FilmAffinityScrapper
         $year = $this->cleanText($infoDOM->find('dt:contains(Año)')->next()->text());
         $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
         $actors = $this->cleanArray($infoDOM->find('dt:contains(Reparto)')->next()->text(), 5);
-        $image = $pageDOM->find('#movie-main-image-container a')->attr('href');
+        $image = $this->cleanImage($pageDOM->find('#movie-main-image-container img')->attr('src'));
         $rating = $pageDOM->find('#movie-rat-avg')->text();
         $rating = str_replace(',', '.', $rating);
 
@@ -119,6 +119,16 @@ class FilmAffinityScrapper
     private function cleanText($text)
     {
         return trim($text);
+    }
+
+    private function cleanImage($text)
+    {
+        if (preg_match('#movies/noimg#', $text))
+        {
+            return null;
+        }
+
+        return $text;
     }
 
     private function cleanArray($text, $limit = PHP_INT_MAX)

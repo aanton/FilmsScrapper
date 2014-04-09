@@ -29,7 +29,7 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
             ->setOriginalTitle('Memento')
             ->setYear(2000)
             ->setPermalink('http://www.filmaffinity.com/es/film931317.html')
-            ->setImageUrl('http://pics.filmaffinity.com/Memento-230609861-large.jpg')
+            ->setImageUrl('http://pics.filmaffinity.com/Memento-230609861-main.jpg')
             ->setRating(7.9)
             ->setDirectors(array('Christopher Nolan'))
             ->setActors(array('Guy Pearce', 'Carrie-Anne Moss', 'Joe Pantoliano', 'Mark Boone Junior', 'Stephen Tobolowsky'));
@@ -71,7 +71,7 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('Futbolín 2 (Metegol 2)')
             ->setYear(2016)
             ->setPermalink('http://www.filmaffinity.com/es/film177643.html')
-            ->setThumbnailUrl('http://www.filmaffinity.com/imgs/movies/noimg50x72.jpg')
+            // ->setThumbnailUrl('') // no image
             ->setRating(0.0)
             ->setDirectors(array())
             ->setActors(array('Animation'));
