@@ -31,10 +31,7 @@ class FilmAffinityScrapper
             return array();
         }
 
-        $html = utf8_encode($response->body); // Convert HTML to UTF-8
-
-        /** @var \QueryPath\DOMQuery $pageDOM */
-        $pageDOM = htmlqp($html);
+        $pageDOM = $this->getPageDOM($response->body);
 
         $films = array();
         /** @var \QueryPath\DOMQuery $filmsDOM */
@@ -82,9 +79,7 @@ class FilmAffinityScrapper
             return null;
         }
 
-        $html = $response->body;
-        /** @var \QueryPath\DOMQuery $pageDOM */
-        $pageDOM = htmlqp($html);
+        $pageDOM = $this->getPageDOM($response->body);
 
         $title = $this->cleanText($pageDOM->find('#main-title')->text());
         if (empty($title))
@@ -108,6 +103,20 @@ class FilmAffinityScrapper
             ->setDirectors($directors)->setActors($actors);
 
         return $film;
+    }
+
+    /**
+     * @param string $html
+     * @return \QueryPath\DOMQuery
+     */
+    private function getPageDOM($html)
+    {
+        // disable standard libxml errors and enable user error handling
+        libxml_use_internal_errors(true);
+
+        $html = utf8_encode($html); // Convert HTML to UTF-8
+        $pageDOM = htmlqp($html);
+        return $pageDOM;
     }
 
     private function parseTitleAndYear($text)
