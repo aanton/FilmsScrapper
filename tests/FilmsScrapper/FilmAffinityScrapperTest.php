@@ -10,7 +10,7 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->scrapper = new FilmAffinityScrapper();
+        $this->scrapper = new FilmAffinityScrapper('es');
     }
 
     public function testFailedGet()
