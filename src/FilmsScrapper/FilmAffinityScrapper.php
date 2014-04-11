@@ -90,6 +90,7 @@ class FilmAffinityScrapper
         $infoDOM = $pageDOM->find('.movie-info');
         $originalTitle = $this->cleanText($infoDOM->find('dt:contains(Título original)')->next()->text());
         $year = $this->cleanText($infoDOM->find('dt:contains(Año)')->next()->text());
+        $synopsis = $this->cleanText($infoDOM->find('dt:contains(Sinopsis)')->next()->text());
         $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
         $actors = $this->cleanArray($infoDOM->find('dt:contains(Reparto)')->next()->text(), 5);
         $image = $this->cleanImage($pageDOM->find('#movie-main-image-container img')->attr('src'));
@@ -98,6 +99,7 @@ class FilmAffinityScrapper
 
         $film = new Film();
         $film->setTitle($title)->setOriginalTitle($originalTitle)->setYear($year)
+            ->setSynopsis($synopsis)
             ->setPermalink($url)
             ->setImageUrl($image)->setRating($rating)
             ->setDirectors($directors)->setActors($actors);

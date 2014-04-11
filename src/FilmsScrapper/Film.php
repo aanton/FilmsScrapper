@@ -11,7 +11,7 @@ class Film
     protected $originalTitle;
 
     /** @var string */
-    protected $description;
+    protected $synopsis;
 
     /** @var string */
     protected $permalink;
@@ -37,18 +37,18 @@ class Film
     /**
      * @return string
      */
-    public function getDescription()
+    public function getSynopsis()
     {
-        return $this->description;
+        return $this->synopsis;
     }
 
     /**
-     * @param string $description
+     * @param string $synopsis
      * @return $this
      */
-    public function setDescription($description)
+    public function setSynopsis($synopsis)
     {
-        $this->description = $description;
+        $this->synopsis = $synopsis;
         return $this;
     }
 
@@ -115,7 +115,7 @@ class Film
     }
 
     /**
-     * @param string $url
+     * @param string $permalink
      * @return $this
      */
     public function setPermalink($permalink)
