@@ -1,5 +1,7 @@
 # FilmsScrapper
 
+[![Build Status](https://travis-ci.org/aanton/FilmsScrapper.svg?branch=master)](https://travis-ci.org/aanton/FilmsScrapper)
+
 Project created for learning and practicing
 
 ## Requirements
