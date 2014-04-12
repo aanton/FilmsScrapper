@@ -11,8 +11,13 @@ class FilmAffinityScrapper
     /**
      * @param string $language
      */
-    public function __construct($language = 'es')
+    public function __construct($language)
     {
+        if ($language !== 'es')
+        {
+            throw new \Exception('Only ES language is currently supported');
+        }
+
         $this->baseUrl = $this->domain . '/' . $language . '/';
     }
 

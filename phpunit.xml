@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="tests/bootstrap.php" colors="true" stopOnError="false" stopOnFailure="false">
+<phpunit bootstrap="tests/bootstrap.php" colors="false" stopOnError="false" stopOnFailure="false">
     <testsuites>
         <testsuite name="FilmsScrapper Test Suite">
             <directory>tests/FilmsScrapper/</directory>
