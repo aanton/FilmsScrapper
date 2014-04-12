@@ -3,7 +3,7 @@
 use FilmsScrapper\Film;
 use FilmsScrapper\FilmAffinityScrapper;
 
-class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
+class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -18,14 +18,14 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testFailedGet()
     {
-        $scrapper = new FilmAffinityScrapper('es');
+        $scrapper = new FilmAffinityScrapper(FilmAffinityScrapper::LANGUAGE_SPANISH);
         $film = $scrapper->get('invalid-identifier');
         $this->assertNull($film);
     }
 
     public function testGet()
     {
-        $scrapper = new FilmAffinityScrapper('es');
+        $scrapper = new FilmAffinityScrapper(FilmAffinityScrapper::LANGUAGE_SPANISH);
         $foundFilm = $scrapper->get(931317);
         $this->assertNotNull($foundFilm);
 
@@ -44,14 +44,14 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testFailedSearch()
     {
-        $scrapper = new FilmAffinityScrapper('es');
+        $scrapper = new FilmAffinityScrapper(FilmAffinityScrapper::LANGUAGE_SPANISH);
         $films = $scrapper->search('invalid-film-title');
         $this->assertEmpty($films);
     }
 
     public function testSearch()
     {
-        $scrapper = new FilmAffinityScrapper('es');
+        $scrapper = new FilmAffinityScrapper(FilmAffinityScrapper::LANGUAGE_SPANISH);
         $foundFilms = $scrapper->search('Criadas y Señoras');
         $this->assertNotEmpty($foundFilms);
         $this->assertEquals(1, count($foundFilms));
@@ -69,7 +69,7 @@ class FilmAffinityScrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchMultipleResults()
     {
-        $scrapper = new FilmAffinityScrapper('es');
+        $scrapper = new FilmAffinityScrapper(FilmAffinityScrapper::LANGUAGE_SPANISH);
         $foundFilms = $scrapper->search('Futbolín');
         $this->assertNotEmpty($foundFilms);
         $this->assertEquals(2, count($foundFilms));
