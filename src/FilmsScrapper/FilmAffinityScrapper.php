@@ -5,6 +5,7 @@ namespace FilmsScrapper;
 class FilmAffinityScrapper
 {
     const LANGUAGE_SPANISH = 'es';
+    const LANGUAGE_ENGLISH = 'en';
 
     /** @var string */
     protected $domain = 'http://www.filmaffinity.com';
@@ -25,6 +26,10 @@ class FilmAffinityScrapper
         {
             case self::LANGUAGE_SPANISH:
                 $this->parser = new FilmAffinityParserSpanish($this->domain, $language);
+                break;
+
+            case self::LANGUAGE_ENGLISH:
+                $this->parser = new FilmAffinityParserEnglish($this->domain, $language);
                 break;
 
             default:
