@@ -80,10 +80,4 @@ class FilmAffinityParserSpanish extends FilmAffinityParser
         return $films;
     }
 
-    private function parseTitleAndYear($text)
-    {
-        $result = preg_match('#^(.*?)\s*\(([0-9]+)\)$#', $text, $matches);
-        return $result ? array($matches[1], $matches[2]) : array($text, 0);
-    }
-
 } 

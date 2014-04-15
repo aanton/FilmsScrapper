@@ -31,4 +31,27 @@ class FilmAffinityScrapperEnglishTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($foundFilm, $film);
     }
 
+    public function testFailedSearch()
+    {
+        $films = $this->scrapper->search('invalid-film-title');
+        $this->assertEmpty($films);
+    }
+
+    public function testSearch()
+    {
+        $foundFilms = $this->scrapper->search('La gran familia española');
+        $this->assertNotEmpty($foundFilms);
+        $this->assertEquals(1, count($foundFilms));
+
+        $film = new Film();
+        $film->setTitle('My Family and Other Hooligans (Family United)')
+            ->setYear(2013)
+            ->setPermalink('http://www.filmaffinity.com/en/film728142.html')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/My_Family_and_Other_Hooligans_Family_United-728142-small.jpg')
+            ->setRating(6.0)
+            ->setDirectors(array('Daniel Sánchez Arévalo'))
+            ->setActors(array('Quim Gutiérrez', 'Antonio de la Torre', 'Patrick Criado', 'Verónica Echegui', 'Roberto Álamo'));
+        $this->assertEquals($foundFilms[0], $film);
+    }
+
 }

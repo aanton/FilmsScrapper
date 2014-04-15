@@ -51,6 +51,16 @@ abstract class FilmAffinityParser
 
     /**
      * @param string $text
+     * @return array Array of two elements: title & year
+     */
+    protected function parseTitleAndYear($text)
+    {
+        $result = preg_match('#^(.*?)\s*\(([0-9]+)\)$#', $text, $matches);
+        return $result ? array($matches[1], $matches[2]) : array($text, 0);
+    }
+
+    /**
+     * @param string $text
      * @return string
      */
     protected function cleanText($text)
