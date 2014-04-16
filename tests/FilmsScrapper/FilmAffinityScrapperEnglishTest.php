@@ -54,4 +54,31 @@ class FilmAffinityScrapperEnglishTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($foundFilms[0], $film);
     }
 
+    public function testSearchMultipleResults()
+    {
+        $foundFilms = $this->scrapper->search('Metegol');
+        $this->assertNotEmpty($foundFilms);
+        $this->assertEquals(2, count($foundFilms));
+
+        $film = new Film();
+        $film->setTitle('Metegol 2')
+            ->setYear(2016)
+            ->setPermalink('http://www.filmaffinity.com/en/film177643.html')
+            // ->setThumbnailUrl('') // no image
+            ->setRating(0.0)
+            ->setDirectors(array())
+            ->setActors(array('Animation'));
+        $this->assertEquals($foundFilms[0], $film);
+
+        $film = new Film();
+        $film->setTitle('Underdogs')
+            ->setYear(2013)
+            ->setPermalink('http://www.filmaffinity.com/en/film347421.html')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Underdogs-347421-small.jpg')
+            ->setRating(6.0)
+            ->setDirectors(array('Juan José Campanella'))
+            ->setActors(array('Animation'));
+        $this->assertEquals($foundFilms[1], $film);
+    }
+
 }
