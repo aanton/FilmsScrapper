@@ -28,6 +28,9 @@ class Film
     /** @var int */
     protected $year;
 
+    /** @var int */
+    protected $duration;
+
     /** @var array */
     protected $directors;
 
@@ -53,7 +56,7 @@ class Film
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getRating()
     {
@@ -139,6 +142,24 @@ class Film
     public function setYear($year)
     {
         $this->year = intval($year);
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param int $duration
+     * @return $this
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
         return $this;
     }
 

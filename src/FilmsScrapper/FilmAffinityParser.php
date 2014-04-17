@@ -61,6 +61,16 @@ abstract class FilmAffinityParser
 
     /**
      * @param string $text
+     * @return int
+     */
+    protected function parseDuration($text)
+    {
+        $result = preg_replace('#^([0-9]+) .*$#', '$1', $this->cleanText($text));
+        return intval($result);
+    }
+
+    /**
+     * @param string $text
      * @return string
      */
     protected function cleanText($text)

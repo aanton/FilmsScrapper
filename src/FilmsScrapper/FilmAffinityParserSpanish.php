@@ -23,6 +23,7 @@ class FilmAffinityParserSpanish extends FilmAffinityParser
         $infoDOM = $pageDOM->find('.movie-info');
         $originalTitle = $this->cleanText($infoDOM->find('dt:contains(Título original)')->next()->text());
         $year = $this->cleanText($infoDOM->find('dt:contains(Año)')->next()->text());
+        $duration = $this->parseDuration($infoDOM->find('dt:contains(Duración)')->next()->text());
         $synopsis = $this->cleanText($infoDOM->find('dt:contains(Sinopsis)')->next()->text());
         $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
         $actors = $this->cleanArray($infoDOM->find('dt:contains(Reparto)')->next()->text(), 5);
@@ -31,7 +32,9 @@ class FilmAffinityParserSpanish extends FilmAffinityParser
         $rating = str_replace(',', '.', $rating);
 
         $film = new Film();
-        $film->setTitle($title)->setOriginalTitle($originalTitle)->setYear($year)
+        $film->setTitle($title)->setOriginalTitle($originalTitle)
+            ->setYear($year)
+            ->setDuration($duration)
             ->setSynopsis($synopsis)
             ->setPermalink($url)
             ->setImageUrl($image)->setRating($rating)

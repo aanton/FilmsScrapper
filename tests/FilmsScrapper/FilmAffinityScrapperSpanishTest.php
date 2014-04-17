@@ -38,6 +38,7 @@ class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('Memento')
             ->setOriginalTitle('Memento')
             ->setYear(2000)
+            ->setDuration(115)
             ->setSynopsis('Leonard es un investigador de una agencia de seguros cuya memoria está irreversiblemente dañada por culpa de un golpe en la cabeza, sufrido al intentar evitar el asesinato de su mujer: éste es el último hecho que recuerda del pasado. A causa del golpe, ha perdido la memoria reciente, es decir, los hechos cotidianos desaparecen de su mente en unos minutos. Así pues, para investigar y vengar el asesinato de su esposa tiene que recurrir a la ayuda de una cámara instantánea y a las notas tatuadas en su cuerpo. (FILMAFFINITY)')
             ->setPermalink('http://www.filmaffinity.com/es/film931317.html')
             ->setImageUrl('http://pics.filmaffinity.com/Memento-230609861-main.jpg')
