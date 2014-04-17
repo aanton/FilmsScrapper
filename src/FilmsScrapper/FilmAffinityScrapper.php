@@ -58,14 +58,21 @@ class FilmAffinityScrapper
     }
 
     /**
-     * @param string $text
+     * @param string $title
+     * @param array $options (year)
      * @return Film[]
      * @throws \Exception
      */
-    public function search($text)
+    public function search($title, array $options = array())
     {
-        $text = urlencode(utf8_decode($text)); // Convert search string to ISO-8859-1
-        $url = $this->generateUrl('advsearch.php?stext=' . $text . '&stype=title');
+        $title = urlencode(utf8_decode($title)); // Convert search string to ISO-8859-1
+        $path = 'advsearch.php?stext=' . $title . '&stype=title';
+        if (array_key_exists('year', $options))
+        {
+            $year = $options['year'];
+            $path .= '&fromyear=' . $year .'&toyear=' . $year;
+        }
+        $url = $this->generateUrl($path);
 
         $response = \Requests::get($url, array());
         if ($response->status_code !== 200) {
@@ -75,8 +82,8 @@ class FilmAffinityScrapper
         return $this->parser->parseSearch($response->body);
     }
 
-    protected function generateUrl($url)
+    protected function generateUrl($path)
     {
-        return $this->domain . '/' . $this->language . '/' . $url;
+        return $this->domain . '/' . $this->language . '/' . $path;
     }
 }

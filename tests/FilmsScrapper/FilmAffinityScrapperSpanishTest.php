@@ -59,14 +59,7 @@ class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($foundFilms);
         $this->assertEquals(1, count($foundFilms));
 
-        $film = new Film();
-        $film->setTitle('Criadas y señoras')
-            ->setYear(2011)
-            ->setPermalink('http://www.filmaffinity.com/es/film512560.html')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/Criadas_y_senoras-512560-small.jpg')
-            ->setRating(8.0)
-            ->setDirectors(array('Tate Taylor'))
-            ->setActors(array('Emma Stone', 'Viola Davis', 'Bryce Dallas Howard', 'Sissy Spacek', 'Octavia Spencer'));
+        $film = $this->getSearchTestFilm();
         $this->assertEquals($foundFilms[0], $film);
     }
 
@@ -95,5 +88,28 @@ class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
             ->setDirectors(array('Juan José Campanella'))
             ->setActors(array('Animation'));
         $this->assertEquals($foundFilms[1], $film);
+    }
+
+    public function testSearchByYear()
+    {
+        $foundFilms = $this->scrapper->search('Criadas y Señoras', array('year' => 2011));
+        $this->assertNotEmpty($foundFilms);
+        $this->assertEquals(1, count($foundFilms));
+
+        $film = $this->getSearchTestFilm();
+        $this->assertEquals($foundFilms[0], $film);
+    }
+
+    private function getSearchTestFilm()
+    {
+        $film = new Film();
+        $film->setTitle('Criadas y señoras')
+            ->setYear(2011)
+            ->setPermalink('http://www.filmaffinity.com/es/film512560.html')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Criadas_y_senoras-512560-small.jpg')
+            ->setRating(8.0)
+            ->setDirectors(array('Tate Taylor'))
+            ->setActors(array('Emma Stone', 'Viola Davis', 'Bryce Dallas Howard', 'Sissy Spacek', 'Octavia Spencer'));
+        return $film;
     }
 }
