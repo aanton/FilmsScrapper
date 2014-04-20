@@ -37,6 +37,9 @@ class Film
     /** @var array */
     protected $actors;
 
+    /** @var array */
+    protected $genres;
+
     /**
      * @return string
      */
@@ -232,6 +235,24 @@ class Film
     public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGenres()
+    {
+        return $this->genres;
+    }
+
+    /**
+     * @param array $genres
+     * @return $this
+     */
+    public function setGenres($genres)
+    {
+        $this->genres = $genres;
         return $this;
     }
 

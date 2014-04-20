@@ -26,6 +26,7 @@ class FilmAffinityParserEnglish extends FilmAffinityParser
         $synopsis = $this->cleanText($pageDOM->find('b:contains(SYNOPSIS/PLOT)')->parent()->next()->text());
         $directors = $this->cleanArray($pageDOM->find('b:contains(DIRECTOR)')->parent()->next()->text(), 2);
         $actors = $this->cleanArray($pageDOM->find('b:contains(CAST)')->parent()->next()->text(), 5);
+        $genres = $this->parseGenres($pageDOM->find('b:contains(GENRE)')->parent()->next()->text(), 5);
         $image = $this->cleanImage($pageDOM->find('.lightbox img')->attr('src'));
         $rating = $pageDOM->find('img[src*="imgs/ratings"]')->parent()->parent()->prev()->text();
         $rating = str_replace(',', '.', $rating);
@@ -37,7 +38,8 @@ class FilmAffinityParserEnglish extends FilmAffinityParser
             ->setSynopsis($synopsis)
             ->setPermalink($url)
             ->setImageUrl($image)->setRating($rating)
-            ->setDirectors($directors)->setActors($actors);
+            ->setDirectors($directors)->setActors($actors)
+            ->setGenres($genres);
 
         return $film;
     }

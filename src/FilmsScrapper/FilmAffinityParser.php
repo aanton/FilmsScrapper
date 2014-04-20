@@ -71,6 +71,17 @@ abstract class FilmAffinityParser
 
     /**
      * @param string $text
+     * @param int $limit
+     * @return array
+     */
+    protected function parseGenres($text, $limit = 3)
+    {
+        $text = preg_replace('#\|.*$#', '', $text); // iscard genres after | character
+        return $this->cleanArray($text, $limit);
+    }
+
+    /**
+     * @param string $text
      * @return string
      */
     protected function cleanText($text)
@@ -105,7 +116,7 @@ abstract class FilmAffinityParser
             return array();
         }
 
-        $array = preg_split('#\s*,\s*#', $text);
+        $array = preg_split('#\s*[,\.]\s*#', $text);
         return array_slice($array, 0, $limit);
     }
 

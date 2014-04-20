@@ -28,7 +28,8 @@ class FilmAffinityScrapperEnglishTest extends \PHPUnit_Framework_TestCase
             ->setImageUrl('http://pics.filmaffinity.com/Memento-931317-full.jpg')
             ->setRating(7.9)
             ->setDirectors(array('Christopher Nolan'))
-            ->setActors(array('Guy Pearce', 'Carrie-Anne Moss', 'Joe Pantoliano', 'Mark Boone Junior', 'Stephen Tobolowsky'));
+            ->setActors(array('Guy Pearce', 'Carrie-Anne Moss', 'Joe Pantoliano', 'Mark Boone Junior', 'Stephen Tobolowsky'))
+            ->setGenres(array('Thriller', 'Mystery'));
         $this->assertEquals($foundFilm, $film);
     }
 
