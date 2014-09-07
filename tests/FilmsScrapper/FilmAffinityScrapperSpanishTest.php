@@ -85,7 +85,7 @@ class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('Futbolín (Metegol)')
             ->setYear(2013)
             ->setPermalink('http://www.filmaffinity.com/es/film347421.html')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/Futbolin_Metegol-347421-small.jpg')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Futbol_n_Metegol-347421-small.jpg')
             ->setRating(6.0)
             ->setDirectors(array('Juan José Campanella'))
             ->setActors(array('Animation'));
@@ -108,7 +108,7 @@ class FilmAffinityScrapperSpanishTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('Criadas y señoras')
             ->setYear(2011)
             ->setPermalink('http://www.filmaffinity.com/es/film512560.html')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/Criadas_y_senoras-512560-small.jpg')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Criadas_y_se_oras-512560-small.jpg')
             ->setRating(8.0)
             ->setDirectors(array('Tate Taylor'))
             ->setActors(array('Emma Stone', 'Viola Davis', 'Bryce Dallas Howard', 'Sissy Spacek', 'Octavia Spencer'));

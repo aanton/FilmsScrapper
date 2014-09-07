@@ -14,21 +14,22 @@ class FilmAffinityParserEnglish extends FilmAffinityParser
     {
         $pageDOM = $this->getPageDOM($html);
 
-        $title = $this->cleanText($pageDOM->find('img[src*="images/movie.gif"]')->parent()->text());
+        $title = $this->cleanText($pageDOM->find('#main-title span')->text());
         if (empty($title))
         {
             return null;
         }
 
-        $originalTitle = $this->cleanText($pageDOM->find('b:contains(ORIGINAL TITLE)')->parent()->next()->text());
-        $year = $this->cleanText($pageDOM->find('b:contains(YEAR)')->parent()->next()->text());
-        $duration = $this->parseDuration($pageDOM->find('b:contains(RUNNING TIME)')->parent()->next()->text());
-        $synopsis = $this->cleanText($pageDOM->find('b:contains(SYNOPSIS/PLOT)')->parent()->next()->text());
-        $directors = $this->cleanArray($pageDOM->find('b:contains(DIRECTOR)')->parent()->next()->text(), 2);
-        $actors = $this->cleanArray($pageDOM->find('b:contains(CAST)')->parent()->next()->text(), 5);
-        $genres = $this->parseGenres($pageDOM->find('b:contains(GENRE)')->parent()->next()->text(), 5);
-        $image = $this->cleanImage($pageDOM->find('.lightbox img')->attr('src'));
-        $rating = $pageDOM->find('img[src*="imgs/ratings"]')->parent()->parent()->prev()->text();
+        $infoDOM = $pageDOM->find('.movie-info');
+        $originalTitle = $this->cleanText($infoDOM->find('dt:contains(Original title)')->next()->text());
+        $year = $this->cleanText($infoDOM->find('dt:contains(Year)')->next()->text());
+        $duration = $this->parseDuration($infoDOM->find('dt:contains(Running time)')->next()->text());
+        $synopsis = $this->cleanText($infoDOM->find('dt:contains(Synopsis / Plot)')->next()->text());
+        $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
+        $actors = $this->cleanArray($infoDOM->find('dt:contains(Cast)')->next()->text(), 5);
+        $genres = $this->parseGenres($infoDOM->find('dt:contains(Genre)')->next()->text());
+        $image = $this->cleanImage($pageDOM->find('#movie-main-image-container img')->attr('src'));
+        $rating = $pageDOM->find('#movie-rat-avg')->text();
         $rating = str_replace(',', '.', $rating);
 
         $film = new Film();
@@ -42,52 +43,6 @@ class FilmAffinityParserEnglish extends FilmAffinityParser
             ->setGenres($genres);
 
         return $film;
-    }
-
-    /**
-     * @param string $html
-     * @return Film[]
-     * @throws \Exception
-     */
-    public function parseSearch($html)
-    {
-        $pageDOM = $this->getPageDOM($html);
-
-        $films = array();
-        /** @var \QueryPath\DOMQuery $filmsDOM */
-        $filmsDOM = $pageDOM->find('.adv-search-movie-container');
-
-        if ($filmsDOM->length === 1 && $filmsDOM->find('b:contains(There are no results)')->length === 1)
-        {
-            return $films;
-        }
-
-        foreach ($filmsDOM as $filmDOM)
-        {
-            /** @var \QueryPath\DOMQuery $filmDOM */
-            $title = $this->cleanText($filmDOM->find('.mc-title')->parent()->text());
-
-            list($title, $year) = $this->parseTitleAndYear($title);
-            if (empty($title) || empty($year))
-            {
-                continue;
-            }
-
-            $permalink = $filmDOM->find('.mc-title a')->attr('href');
-            $thumbnail = $this->cleanImage($filmDOM->find('img[src*="-small"]')->attr('src'));
-            $rating = $filmDOM->find('img[src*="imgs/ratings"]')->attr('src');
-            $rating = $rating ? (preg_replace('#.*/([0-9]+)\.png#', '$1', $rating)) : false;
-            $directors = $this->cleanArray($filmDOM->find('.director')->text(), 2);
-            $actors = $this->cleanArray($filmDOM->find('.cast')->text(), 5);
-
-            $film = new Film();
-            $film->setTitle($title)->setYear($year)->setPermalink($this->domain . $permalink)
-                ->setThumbnailUrl($thumbnail)->setRating($rating)
-                ->setDirectors($directors)->setActors($actors);
-            $films[] = $film;
-        }
-
-        return $films;
     }
 
 } 

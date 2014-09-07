@@ -14,7 +14,7 @@ class FilmAffinityParserSpanish extends FilmAffinityParser
     {
         $pageDOM = $this->getPageDOM($html);
 
-        $title = $this->cleanText($pageDOM->find('#main-title')->text());
+        $title = $this->cleanText($pageDOM->find('#main-title span')->text());
         if (empty($title))
         {
             return null;
@@ -43,46 +43,6 @@ class FilmAffinityParserSpanish extends FilmAffinityParser
             ->setGenres($genres);
 
         return $film;
-    }
-
-    /**
-     * @param string $html
-     * @return Film[]
-     * @throws \Exception
-     */
-    public function parseSearch($html)
-    {
-        $pageDOM = $this->getPageDOM($html);
-
-        $films = array();
-        /** @var \QueryPath\DOMQuery $filmsDOM */
-        $filmsDOM = $pageDOM->find('.movie-card');
-        foreach ($filmsDOM as $filmDOM)
-        {
-            /** @var \QueryPath\DOMQuery $filmDOM */
-            $title = $this->cleanText($filmDOM->find('.mc-title')->text());
-
-            list($title, $year) = $this->parseTitleAndYear($title);
-            if (empty($title) || empty($year))
-            {
-                continue;
-            }
-
-            $permalink = $filmDOM->find('.mc-poster a')->attr('href');
-            $thumbnail = $this->cleanImage($filmDOM->find('.mc-poster img')->attr('src'));
-            $rating = $filmDOM->find('.mc-info-container > img')->attr('src');
-            $rating = $rating ? (preg_replace('#.*/([0-9]+)\.png#', '$1', $rating)) : false;
-            $directors = $this->cleanArray($filmDOM->find('.mc-director')->text(), 2);
-            $actors = $this->cleanArray($filmDOM->find('.mc-cast')->text(), 5);
-
-            $film = new Film();
-            $film->setTitle($title)->setYear($year)->setPermalink($this->domain . $permalink)
-                ->setThumbnailUrl($thumbnail)->setRating($rating)
-                ->setDirectors($directors)->setActors($actors);
-            $films[] = $film;
-        }
-
-        return $films;
     }
 
 } 

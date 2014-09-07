@@ -65,7 +65,7 @@ class FilmAffinityScrapper
      */
     public function search($title, array $options = array())
     {
-        $title = urlencode(utf8_decode($title)); // Convert search string to ISO-8859-1
+        $title = urlencode($title);
         $path = 'advsearch.php?stext=' . $title . '&stype=title';
         if (array_key_exists('year', $options))
         {
