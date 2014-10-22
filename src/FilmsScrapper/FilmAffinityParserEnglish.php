@@ -2,47 +2,65 @@
 
 namespace FilmsScrapper;
 
+use QueryPath\DOMQuery;
+
 class FilmAffinityParserEnglish extends FilmAffinityParser
 {
+
     /**
-     * @param string $html
-     * @param string $url
-     * @return Film|null
-     * @throws \Exception
+     * @inheritdoc
      */
-    public function parseGet($html, $url)
+    protected function parseGetTitle(DOMQuery $dom)
     {
-        $pageDOM = $this->getPageDOM($html);
+        return $dom->find('dt:contains(Original title)')->next()->text();
+    }
 
-        $title = $this->cleanText($pageDOM->find('#main-title span')->text());
-        if (empty($title))
-        {
-            return null;
-        }
+    /**
+     * @inheritdoc
+     */
+    protected function parseGetYear(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Year)')->next()->text();
+    }
 
-        $infoDOM = $pageDOM->find('.movie-info');
-        $originalTitle = $this->cleanText($infoDOM->find('dt:contains(Original title)')->next()->text());
-        $year = $this->cleanText($infoDOM->find('dt:contains(Year)')->next()->text());
-        $duration = $this->parseDuration($infoDOM->find('dt:contains(Running time)')->next()->text());
-        $synopsis = $this->cleanText($infoDOM->find('dt:contains(Synopsis / Plot)')->next()->text());
-        $directors = $this->cleanArray($infoDOM->find('dt:contains(Director)')->next()->text(), 2);
-        $actors = $this->cleanArray($infoDOM->find('dt:contains(Cast)')->next()->text(), 5);
-        $genres = $this->parseGenres($infoDOM->find('dt:contains(Genre)')->next()->text());
-        $image = $this->cleanImage($pageDOM->find('#movie-main-image-container img')->attr('src'));
-        $rating = $pageDOM->find('#movie-rat-avg')->text();
-        $rating = str_replace(',', '.', $rating);
+    /**
+     * @inheritdoc
+     */
+    protected function parseGetDuration(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Running time)')->next()->text();
+    }
 
-        $film = new Film();
-        $film->setTitle($title)->setOriginalTitle($originalTitle)
-            ->setYear($year)
-            ->setDuration($duration)
-            ->setSynopsis($synopsis)
-            ->setPermalink($url)
-            ->setImageUrl($image)->setRating($rating)
-            ->setDirectors($directors)->setActors($actors)
-            ->setGenres($genres);
+    /**
+     * @inheritdoc
+     */
+    protected function parseGetSynopsis(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Synopsis / Plot)')->next()->text();
+    }
 
-        return $film;
+    /**
+     * @inheritdoc
+     */
+    protected function parseGetDirectors(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Director)')->next()->text();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function parseGetActors(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Cast)')->next()->text();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parseGetGenres(DOMQuery $dom)
+    {
+        return $dom->find('dt:contains(Genre)')->next()->text();
     }
 
 } 

@@ -2,6 +2,8 @@
 
 namespace FilmsScrapper;
 
+use QueryPath\DOMQuery;
+
 abstract class FilmAffinityParser
 {
     /** @var string */
@@ -26,7 +28,82 @@ abstract class FilmAffinityParser
      * @return Film|null
      * @throws \Exception
      */
-    public abstract function parseGet($html, $url);
+    public function parseGet($html, $url)
+    {
+        $pageDOM = $this->getPageDOM($html);
+
+        $title = $this->cleanText($pageDOM->find('#main-title span')->text());
+        if (empty($title))
+        {
+            return null;
+        }
+
+        $infoDOM = $pageDOM->find('.movie-info');
+        $originalTitle = $this->cleanText($this->parseGetTitle($infoDOM));
+        $year = $this->cleanText($this->parseGetYear($infoDOM));
+        $duration = $this->parseDuration($this->parseGetDuration($infoDOM));
+        $synopsis = $this->cleanText($this->parseGetSynopsis($infoDOM));
+        $directors = $this->cleanArray($this->parseGetDirectors($infoDOM), 2);
+        $actors = $this->cleanArray($this->parseGetActors($infoDOM), 5);
+        $genres = $this->parseGenres($this->parseGetGenres($infoDOM));
+        $image = $this->cleanImage($pageDOM->find('#movie-main-image-container img')->attr('src'));
+        $rating = $pageDOM->find('#movie-rat-avg')->text();
+        $rating = str_replace(',', '.', $rating);
+
+        $film = new Film();
+        $film->setTitle($title)->setOriginalTitle($originalTitle)
+            ->setYear($year)
+            ->setDuration($duration)
+            ->setSynopsis($synopsis)
+            ->setPermalink($url)
+            ->setImageUrl($image)->setRating($rating)
+            ->setDirectors($directors)->setActors($actors)
+            ->setGenres($genres);
+
+        return $film;
+    }
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetTitle(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetYear(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetDuration(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetSynopsis(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetDirectors(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    protected abstract function parseGetActors(DOMQuery $dom);
+
+    /**
+     * @param DOMQuery $dom
+     * @return string
+     */
+    public abstract function parseGetGenres(DOMQuery $dom);
 
     /**
      * @param string $html
@@ -38,11 +115,11 @@ abstract class FilmAffinityParser
         $pageDOM = $this->getPageDOM($html);
 
         $films = array();
-        /** @var \QueryPath\DOMQuery $filmsDOM */
+        /** @var DOMQuery $filmsDOM */
         $filmsDOM = $pageDOM->find('.movie-card');
         foreach ($filmsDOM as $filmDOM)
         {
-            /** @var \QueryPath\DOMQuery $filmDOM */
+            /** @var DOMQuery $filmDOM */
             $title = $this->cleanText($filmDOM->find('.mc-title')->text());
 
             list($title, $year) = $this->parseTitleAndYear($title);
@@ -70,7 +147,7 @@ abstract class FilmAffinityParser
 
     /**
      * @param string $html
-     * @return \QueryPath\DOMQuery
+     * @return DOMQuery
      */
     protected function getPageDOM($html)
     {
@@ -108,7 +185,7 @@ abstract class FilmAffinityParser
      */
     protected function parseGenres($text, $limit = 3)
     {
-        $text = preg_replace('#\|.*$#', '', $text); // iscard genres after | character
+        $text = preg_replace('#\|.*$#', '', $text); // Discard genres after | character
         return $this->cleanArray($text, $limit);
     }
 
