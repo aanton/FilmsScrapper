@@ -69,7 +69,7 @@ class FilmAffinityScrapperEnglishTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('Underdogs')
             ->setYear(2013)
             ->setPermalink('http://www.filmaffinity.com/en/film347421.html')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/Underdogs-347421-small.jpg')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/Underdogs-347421-medium.jpg')
             ->setRating(6.0)
             ->setDirectors(array('Juan José Campanella'))
             ->setActors(array('Animation'));
@@ -92,7 +92,7 @@ class FilmAffinityScrapperEnglishTest extends \PHPUnit_Framework_TestCase
         $film->setTitle('My Family and Other Hooligans (Family United)')
             ->setYear(2013)
             ->setPermalink('http://www.filmaffinity.com/en/film728142.html')
-            ->setThumbnailUrl('http://pics.filmaffinity.com/My_Family_and_Other_Hooligans_Family_United-728142-small.jpg')
+            ->setThumbnailUrl('http://pics.filmaffinity.com/My_Family_and_Other_Hooligans_Family_United-728142-medium.jpg')
             ->setRating(6.0)
             ->setDirectors(array('Daniel Sánchez Arévalo'))
             ->setActors(array('Quim Gutiérrez', 'Antonio de la Torre', 'Patrick Criado', 'Verónica Echegui', 'Roberto Álamo'));
