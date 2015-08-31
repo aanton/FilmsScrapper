@@ -130,7 +130,7 @@ abstract class FilmAffinityParser
 
             $permalink = $filmDOM->find('.mc-poster a')->attr('href');
             $thumbnail = $this->cleanImage($filmDOM->find('.mc-poster img')->attr('src'));
-            $rating = $filmDOM->find('.mc-info-container > img')->attr('src');
+            $rating = $filmDOM->find('.mr-rating > img')->attr('src');
             $rating = $rating ? (preg_replace('#.*/([0-9]+)\.png#', '$1', $rating)) : false;
             $directors = $this->cleanArray($filmDOM->find('.mc-director')->text(), 2);
             $actors = $this->cleanArray($filmDOM->find('.mc-cast')->text(), 5);
