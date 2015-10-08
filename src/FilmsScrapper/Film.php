@@ -4,6 +4,9 @@ namespace FilmsScrapper;
 
 class Film
 {
+    /** @var int */
+    protected $id;
+
     /** @var string */
     protected $title;
 
@@ -127,6 +130,7 @@ class Film
     public function setPermalink($permalink)
     {
         $this->permalink = $permalink;
+        $this->id = intval(preg_replace('#^.+film(\d+)\.html$#', '$1', $permalink));
         return $this;
     }
 
@@ -254,6 +258,14 @@ class Film
     {
         $this->genres = $genres;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
 }
